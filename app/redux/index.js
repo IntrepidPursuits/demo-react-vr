@@ -1,3 +1,7 @@
 import { combineReducers } from 'redux'
 
-export const reducer = combineReducers({})
+import { reducer as route } from './route'
+
+export const reducer = combineReducers({
+  route,
+})

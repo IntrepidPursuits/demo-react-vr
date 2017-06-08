@@ -32,6 +32,6 @@ export default (initialState) => {
     initialState,
     compose(applyMiddleware(...middleware), autoRehydrate())
   )
-  persistStore(store, {storage: AsyncStorage}, () => {})
+  // persistStore(store, {storage: AsyncStorage}, () => {})
   return store
 }

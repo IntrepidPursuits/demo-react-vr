@@ -1,36 +1,47 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   asset,
-  StyleSheet,
   Pano,
   Text,
   View,
-} from 'react-vr';
+} from 'react-vr'
+import { connect } from 'react-redux'
+import { MemoryRouter as Router, Route } from 'react-router'
+import OutsideContainer from './OutsideContainer'
+import InterviewContainer from './InterviewContainer'
 
-const styles = StyleSheet.create({
-  welcomeText: {
-    backgroundColor: '#777879',
-    fontSize: 0.1,
-    fontWeight: '400',
-    layoutOrigin: [0.5, 0.5],
-    paddingLeft: 0.2,
-    paddingRight: 0.2,
-    textAlign: 'center',
-    textAlignVertical: 'center',
-    transform: [{translate: [0, 0, -3]}],
-  }
+import { routes } from '../redux/route'
+
+const mapStateToProps = (state) => ({
+  destination: state.route.destination,
 })
 
-export default class App extends Component {
+class App extends Component {
+  state = {
+    destination: routes.outside
+  }
+
+  pushToDestination = (destination) => {
+    let route = ''
+    const {history} = this.props
+    switch(destination) {
+      case routes.outside:
+        history.push('/')
+      case routes.interview:
+        history.push('/inside')
+    }
+  }
+
   render() {
     return (
-      <View>
-        <Pano source={asset('room7.jpg')}/>
-        <Text
-          style={styles.welcomeText}>
-          Hello, World
-        </Text>
-      </View>
-    );
+      <Router>
+        <View>
+          <Route exact path='/' component={OutsideContainer}/>
+          <Route exact path='/inside' component={InterviewContainer}/>
+        </View>
+      </Router>
+    )
   }
-};
+}
+
+export default connect(mapStateToProps)(App)
